@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import {Connect} from "./index"
+import { get } from './Network'
 
 export default function StartGameDialog() {
   const [name, setName] = useState('')
@@ -16,9 +17,9 @@ export default function StartGameDialog() {
   const [shortGame, setShortGame] = useState(false)
 
   const startGame = () => {
-    axios.post('/new', null, { params: { name: name, end_score: shortGame ? 500 : 1000 } })
+    get().new({ name, shortGame })
       .then(response => {
-        Connect(response.data.game_id, response.data.player_id)
+        window.location = `#${response.data.game_id}:${response.data.player_id}`
       })
       .catch(error => {
         if (error.response?.status === 400 || error.response?.status === 403) {

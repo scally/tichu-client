@@ -1,4 +1,4 @@
-import axios from 'axios'
+import { get } from './Network'
 
 // ensure ping packets are sent if no messages are transferred in a given period
 // but don't keep the connection alive *forever* or I'll run out of free dyno hours
@@ -28,7 +28,7 @@ function dnr() {
 
 function setHttpPingInterval() {
   return setInterval(() => {
-      axios.get("/ping")
+      get().ping()
         .then(response => console.log(`http ping: ${response.data}`))
         .catch(error => { console.log(error); dnr() })
   }, HTTP_PING_INTERVAL)

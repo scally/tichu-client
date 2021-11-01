@@ -9,6 +9,7 @@ import StatusBox from "./StatusBox"
 import JoinButton from "./JoinButton"
 import GlobalHistory from "./GlobalHistory"
 import KeepAlive from "./KeepAlive"
+import { get } from './Network'
 
 export default function Game({game_id, player_id}) {
   const MAX_HISTORY = 20
@@ -22,9 +23,7 @@ export default function Game({game_id, player_id}) {
   }, [setHistory])
 
   useEffect(() => {
-    const socketUrl = `${location.origin.replace(/^http/, 'ws')}/connect?game_id=${game_id}&player_id=${player_id}`
-    // ws://localhost:3000/connect?game_id=#bars&player_id=bars
-    const ws = new WebSocket(socketUrl)
+    const ws = get().connect({game_id, player_id})
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data)
       if (data.player_id) {
@@ -44,8 +43,9 @@ export default function Game({game_id, player_id}) {
         appendHistory([], "You have been disconnected. Reload the page to reconnect.")
       }
     }
-    ws.onerror = () => {
-      window.location.href = '/'
+    ws.onerror = (ev) => {
+      alert(JSON.stringify(ev))
+      // window.location.href = '/'
     }
     setSocket(ws)
   }, [game_id, player_id, appendHistory])

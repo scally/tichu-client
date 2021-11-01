@@ -1,0 +1,273 @@
+body {
+  background-color: #f9f9f9;
+  font-family: 'Roboto','Helvetica','Arial','sans-serif';
+}
+
+/* test for aligning things
+div {
+  border: 1px dotted blue !important;
+}
+*/
+
+.red-card {
+  color: #b82525;
+}
+
+.green-card {
+  color: #22a126;
+}
+
+.blue-card {
+  color: #2d47cc;
+}
+
+.black-card {
+  color: #2d2f3b;
+}
+
+.special-card {
+  color: goldenrod;
+}
+
+.card-back {
+  margin: 5px;
+  background: linear-gradient(to bottom right, #dde6ee, #baccde);
+}
+
+.card-back-label {
+  display: block;
+  padding: 3px;
+  font-size: large;
+}
+
+.hand0 {
+  background-color: #f0f0f0;
+  padding: 8px;
+  border: 2px transparent;
+}
+
+.passTarget {
+  border: 2px solid darkgrey;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.pass-holder-arrow {
+  font-size: 24px;
+  margin: 4px;
+}
+
+.card-dragover {
+  background-color: #e0e8f0;
+}
+
+.playerinfo {
+  padding: 2px;
+}
+
+.playerinfo h2 {
+  margin: 4px;
+}
+
+.playerinfo-turn h2 {
+  padding: 2px;
+  border: 2px solid dodgerblue;
+  border-radius: 4px;
+  background-color: aliceblue;
+}
+
+.playerinfo-trickwinner h2 {
+  padding: 2px;
+  border: 2px solid gold;
+  border-radius: 4px;
+  background-color: lightgoldenrodyellow;
+}
+
+.card-rank {
+  font-size: 24px;
+  margin: 4px;
+}
+
+.card-rank.card-small {
+  font-size: 18px;
+  margin: 3px;
+}
+
+.card-suit {
+  margin-top: -4px;
+  font-size: 40px;
+  text-align: center;
+}
+
+.card-suit.card-small {
+  margin-top: -3px;
+  font-size: 28px;
+}
+
+.thetitle {
+  height: 65px;
+  min-width: 140px;
+}
+
+.thetitle div {
+  text-align: right;
+}
+
+.overline {
+  font-size: smaller;
+  letter-spacing: 0.05rem;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+.endscore {
+  font-size: smaller;
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.thetitle .gameId {
+  font-size: x-large;
+}
+
+.big {
+  font-size: x-large;
+}
+
+.status_box {
+  height: 65px;
+  min-width: 140px;
+}
+
+.score_box {
+  margin: 5px;
+}
+
+.wish_box {
+  margin: 5px;
+}
+
+.history-box {
+  border-top: 1px solid lightgray;
+  max-height: 500px;
+  overflow-y: scroll;
+  margin: 40px;
+}
+
+.history-cards {
+  display: flex;
+}
+
+@keyframes from-below {
+  from { opacity: 0; transform: translateY(50%) scaleY(0); }
+  to { opacity: 1; transform: translateY(0%) scaleY(1); }
+}
+
+@keyframes from-left {
+  from { opacity: 0; transform: translate(-150px, -150px); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+
+@keyframes from-above {
+  from { opacity: 0; transform: translate(50px, -200px); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+
+@keyframes from-right {
+  from { opacity: 0; transform: translate(400px, -75px); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+
+.history-cards-container {
+  display: inline-block;
+  animation-duration: 600ms;
+}
+
+.history-cards-container.from-0 {
+  animation-name: from-below;
+}
+
+.history-cards-container.from-1 {
+  animation-name: from-left;
+}
+
+.history-cards-container.from-2 {
+  animation-name: from-above;
+}
+
+.history-cards-container.from-3 {
+  animation-name: from-right;
+}
+
+.action-bar {
+  min-height: 46px;
+}
+
+.MuiListItemText-root .MuiCard-root {
+  display: inline-block;
+}
+
+@keyframes spin-up {
+  from { opacity: 0; transform: scale(0.1) rotate(120deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes spin-down {
+  from { opacity: 0; transform: scale(10) rotate(-120deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
+
+@keyframes bounce {
+  0% { transform: scale(1) }
+  50% { transform: scale(2) }
+  100% { transform: scale(1) }
+}
+
+.tichu-indicator {
+  display: inline-block;
+  border-radius: 20px;
+  padding: 5px 10px 5px 10px;
+  font-weight: bold;
+  margin-top: 2px;
+  position: relative;
+  z-index: 2;
+}
+
+.tichu-score {
+  background-color: #e9e9e9;
+  color: black;
+  font-weight: normal;
+  border: 3px solid #e9e9e9;
+}
+
+.tichu-pending {
+  background-color: white;
+  color: #873bcf;
+  border: 3px solid #873bcf;
+  animation-name: spin-down;
+  animation-duration: 1s;
+}
+
+.player0 .tichu-pending {
+  animation-name: spin-up;
+  animation-duration: 0.5s;
+}
+
+.tichu-success {
+  color: white;
+  background-color: #22a126;
+  border: 3px solid #22a126;
+  animation-name: bounce;
+  animation-duration: 0.5s;
+  transition: color,background-color 0.5s;
+}
+
+.tichu-fail {
+  color: #b82525;
+  background-color: white;
+  border: 3px solid #b82525;
+  border-radius: 2px;
+  animation-name: bounce;
+  animation-duration: 0.5s;
+  transition: color 0.5s;
+}
