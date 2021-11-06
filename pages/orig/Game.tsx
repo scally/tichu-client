@@ -11,14 +11,31 @@ import GlobalHistory from "./GlobalHistory"
 import KeepAlive from "./KeepAlive"
 import { get } from './Network'
 
-export default function Game({game_id, player_id}) {
+export interface GameProps {
+  game_id: string
+  player_id: string
+}
+
+export interface GameState {
+  state?: string
+  wish_rank?: number
+  scores?: any[]
+  end_score?: number
+  players?: any[]
+  turn?: number
+  trick_winner?: number
+  dealer?: number
+  can_join?: boolean
+}
+
+export default function Game({game_id, player_id}: GameProps) {
   const MAX_HISTORY = 20
 
-  const [ socket, setSocket ] = useState()
-  const [ gameState, setGameState ] = useState({"state":"connecting"})
-  const [ history, setHistory ] = useState([])
+  const [ socket, setSocket ] = useState<WebSocket>()
+  const [ gameState, setGameState ] = useState<GameState>({"state":"connecting"})
+  const [ history, setHistory ] = useState<any[]>([])
 
-  const appendHistory = useCallback((log, error) => {
+  const appendHistory = useCallback((log, error?) => {
     setHistory(GlobalHistory.consume(log, error, MAX_HISTORY))
   }, [setHistory])
 
@@ -44,8 +61,7 @@ export default function Game({game_id, player_id}) {
       }
     }
     ws.onerror = (ev) => {
-      alert(JSON.stringify(ev))
-      // window.location.href = '/'
+      window.location.href = '/'
     }
     setSocket(ws)
   }, [game_id, player_id, appendHistory])
@@ -75,13 +91,13 @@ export default function Game({game_id, player_id}) {
         <div style={{display: 'flex', flexDirection: 'column'}}>
           <StatusBox wish={gameState.wish_rank} scores={gameState.scores} endScore={gameState.end_score}/>
           <div style={{flexGrow: 1}}/>
-          <Player data={gameState.players[1]} vertical={true} turn={gameState.turn === 1} trickWinner={gameState.trick_winner === 1 || gameState.dealer === 1} align='left'/>
+          <Player data={gameState.players?.[1]} vertical={true} turn={gameState.turn === 1} trickWinner={gameState.trick_winner === 1 || gameState.dealer === 1} align='left'/>
           <div style={{flexGrow: 1}}/>
         </div>
         <div style={{flexGrow: 1, display: 'flex', flexDirection: 'column'}}>
           <div style={{display: 'flex'}}>
             <div style={{flexGrow: 1}}/>
-            <Player data={gameState.players[2]} vertical={false} turn={gameState.turn === 2} trickWinner={gameState.trick_winner === 2 || gameState.dealer === 2} align='left'/>
+            <Player data={gameState.players?.[2]} vertical={false} turn={gameState.turn === 2} trickWinner={gameState.trick_winner === 2 || gameState.dealer === 2} align='left'/>
             <div style={{flexGrow: 1}}/>
           </div>
           <History data={history}/>
@@ -97,15 +113,15 @@ export default function Game({game_id, player_id}) {
             </div>
           </div>
           <div style={{flexGrow: 1}}/>
-          <Player data={gameState.players[3]} vertical={true} turn={gameState.turn === 3} trickWinner={gameState.trick_winner === 3 || gameState.dealer === 3} align='right'/>
+          <Player data={gameState.players?.[3]} vertical={true} turn={gameState.turn === 3} trickWinner={gameState.trick_winner === 3 || gameState.dealer === 3} align='right'/>
           <div style={{flexGrow: 1}}/>
         </div>
       </div>
       <div>
-        { Object.prototype.hasOwnProperty.call(gameState.players[0], 'hand') ?
+        { Object.prototype.hasOwnProperty.call(gameState.players?.[0], 'hand') ?
             <Player0 gameState={gameState} socket={socket}/>
           : <div style={{display: 'flex', justifyContent: 'center'}}>
-              <Player data={gameState.players[0]} vertical={false} turn={gameState.turn === 0} trickWinner={gameState.trick_winner === 0 || gameState.dealer === 0} align='right'/>
+              <Player data={gameState.players?.[0]} vertical={false} turn={gameState.turn === 0} trickWinner={gameState.trick_winner === 0 || gameState.dealer === 0} align='right'/>
             </div> }
         <Box height={16}/>
       </div>
